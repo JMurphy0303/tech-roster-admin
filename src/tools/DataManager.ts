@@ -1,4 +1,4 @@
-import { MongoClient, Db, Collection, FindCursor } from "mongodb";
+import { MongoClient, InsertOneResult, UpdateResult, ObjectId, DeleteResult, Collection } from "mongodb";
 import { Technology } from "@/tools/data.model";
 
 // MongoDB constants
@@ -12,16 +12,9 @@ export async function getTechnologies() {
 
     let techArray:Technology[];
     try {
-        // make connection to mongoDB server (ASYNC task)
         await mongoClient.connect();
-        // get reference to database via name
-        let db:Db = mongoClient.db(MONGO_DB_NAME);
-        // get reference to desired collection in DB
-        let collection:Collection<Technology> = db.collection<Technology>(MONGO_COLLECTION_TECHS);
-        // get all documents of collection
-        let cursor:FindCursor = collection.find();
-        // get array of documents from cursor (ASYNC task)
-        techArray = await cursor.toArray();
+        // get JSON data from mongoDB server (ASYNC task)
+        techArray = await mongoClient.db(MONGO_DB_NAME).collection<Technology>(MONGO_COLLECTION_TECHS).find().toArray();
         // need to convert ObjectId objects to strings
         techArray.forEach((tech:Technology) => tech._id = tech._id.toString());
     } catch (error:any) {
