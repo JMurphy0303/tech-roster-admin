@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   mongo:
     build:
@@ -15,7 +13,7 @@ services:
       - "27017:27017"
     networks:
       - linkednetwork
-
+            
   app:
     build:
       context: ./
@@ -31,7 +29,9 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - mongo        
+      - mongo
+    environment:
+      - NODE_ENV=production      
     networks:
       - linkednetwork  
 

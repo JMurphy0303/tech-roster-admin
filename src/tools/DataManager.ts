@@ -1,5 +1,5 @@
 import { MongoClient, InsertOneResult, UpdateResult, ObjectId, DeleteResult, Collection } from "mongodb";
-import { Technology } from "@/tools/data.model";
+import { Technology, Course } from "@/tools/data.model";
 
 // MongoDB constants
 const MONGO_URL:string = "mongodb://mongo:27017/";

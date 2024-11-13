@@ -139,5 +139,14 @@ db.technologies.insert([
             {"code": "PROG3017", "name": "Full Stack Programming"},
             {"code": "WEBD3031", "name": "Integrated Project - Web Programming"}
         ]
+    },
+    {
+        "name": "Next.js",
+        "description": "Next.js is an open-source web development framework created by the private company Vercel providing React-based web applications with server-side rendering and static rendering.",
+        "difficulty": 4,
+        "courses": [
+            {"code": "PROG3017", "name": "Full Stack Programming"},
+            {"code": "WEBD3031", "name": "Integrated Project - Web Programming"}
+        ]
     }
 ]);
