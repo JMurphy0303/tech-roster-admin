@@ -1,6 +1,9 @@
 import { MongoClient, InsertOneResult, UpdateResult, ObjectId, DeleteResult, Collection } from "mongodb";
 import { Technology, Course } from "@/tools/data.model";
 
+import { NextRequest, NextResponse } from "next/server";
+import sanitizeHtml from "sanitize-html";
+
 // MongoDB constants
 const MONGO_URL:string = "mongodb://mongo:27017/";
 const MONGO_DB_NAME:string = "dbTechs";	
@@ -25,4 +28,92 @@ export async function getTechnologies() {
     }
 
     return techArray;
+}
+
+export async function createTechnology(request:NextRequest) {
+    let mongoClient:MongoClient = new MongoClient(MONGO_URL);
+
+    try {
+        await mongoClient.connect();
+
+        // fetch the JSON from the request
+        const body:any = await request.json();
+
+        // console.log("BEFORE:");
+        // console.log(body.description);
+        // // sanitize input
+        // body.description = sanitizeHtml(body.description);
+        // console.log("AFTER:");
+        // console.log(body.description);
+
+        // sanitize incoming JSON
+        body.name = sanitizeHtml(body.name);
+        body.description = sanitizeHtml(body.description);
+        body.difficulty = sanitizeHtml(body.difficulty);
+        body.courses.forEach((course:Course) => {
+            course.code = sanitizeHtml(course.code);
+            course.name = sanitizeHtml(course.name);
+        });
+
+        // insert the new technology into the mongodb db
+        let result:InsertOneResult = await mongoClient.db(MONGO_DB_NAME).collection<Technology>(MONGO_COLLECTION_TECHS).insertOne(body);
+
+        // APPROACH I
+        // return new NextResponse(JSON.stringify(body), { status:200 });
+        // APPROACH II
+        // return NextResponse.json(body, {status:200});
+        return NextResponse.json(result, {status:200});
+
+    } catch(error:any) {
+        // return new NextResponse(JSON.stringify({ error: error.message }), { status:500 });
+        return NextResponse.json({ error: error.message }, { status:500 });
+    } finally {
+        mongoClient.close();
+    }
+}
+
+export async function updateTechnology(request:NextRequest, id:string) {
+    let mongoClient:MongoClient = new MongoClient(MONGO_URL);
+
+    try {
+        await mongoClient.connect();
+
+        // fetch the JSON from the request
+        const body:any = await request.json();
+
+        // is the id a valid objectID?
+        if (!ObjectId.isValid(sanitizeHtml(id))) {
+            return NextResponse.json({ error:"Invalid ID format" },{status: 404});
+        }
+        
+        // sanitize the id and convert to ObjectId
+        let techID:ObjectId = new ObjectId(sanitizeHtml(id));
+
+
+        // sanitize incoming JSON
+        body.name = sanitizeHtml(body.name);
+        body.description = sanitizeHtml(body.description);
+        body.difficulty = sanitizeHtml(body.difficulty);
+        body.courses.forEach((course:Course) => {
+            course.code = sanitizeHtml(course.code);
+            course.name = sanitizeHtml(course.name);
+        });
+
+        // update the technology document
+        let techCollection:Collection<Technology> = mongoClient.db(MONGO_DB_NAME).collection<Technology>(MONGO_COLLECTION_TECHS);
+        let selector:Object = { "_id": techID };
+        let newValues:Object = { $set: body };
+        let result:UpdateResult = await techCollection.updateOne(selector, newValues);
+
+        if (result.matchedCount <= 0) {
+            return NextResponse.json({ error: "No technology documents found with ID" }, { status:404 });
+        } else {
+            return NextResponse.json(result, {status:200});
+        }
+
+    } catch(error:any) {
+        return NextResponse.json({ error: error.message }, { status:500 });
+    } finally {
+        mongoClient.close();
+    }
 }
