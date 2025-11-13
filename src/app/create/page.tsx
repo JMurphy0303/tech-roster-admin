@@ -16,9 +16,17 @@ export default function Create() {
     const onSubmit = async (e:any) => {
         setLoading(true);
         // send out JSON to server
-        // ...
+        const responseData = await sendJSONData(POST_URL, {name:txtName, description:txtDescription, url:txtURL}, "POST", false);
 
+        // console.log(responseData);
 
+        if (responseData && responseData.status == 200) {
+            // success! navigate back to home page
+            router.push("/");
+        } else {
+            // WE HAVE A PROBLEM!
+            router.push("/error");
+        }
     };
 
     // ----------------------------------- setting state variables
