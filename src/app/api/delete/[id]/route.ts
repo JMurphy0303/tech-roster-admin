@@ -1,12 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { deleteTechnology } from "@/tools/DataManager";
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: any
 ) {
-  // note: params.id is always a string
-  const id = params.id;
+  const id = context.params.id as string;
 
   try {
     const result = await deleteTechnology(id);
