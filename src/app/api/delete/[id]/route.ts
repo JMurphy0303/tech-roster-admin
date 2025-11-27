@@ -3,9 +3,9 @@ import { deleteTechnology } from "@/tools/DataManager";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = context.params;
 
   try {
     const result = await deleteTechnology(id);
