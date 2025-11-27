@@ -5,7 +5,8 @@ export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const { id } = params;
+  // note: params.id is always a string
+  const id = params.id;
 
   try {
     const result = await deleteTechnology(id);
