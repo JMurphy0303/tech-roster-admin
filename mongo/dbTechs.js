@@ -1,6 +1,5 @@
 // drop collection if already exists
 db.technologies.drop();
-// insert new documents into collection
 db.technologies.insert([
     {
         "name": "PHP",
