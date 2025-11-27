@@ -8,12 +8,20 @@ services:
     volumes:
       - data-volume:/data/db
     environment:
+<<<<<<< HEAD
       MONGO_INITDB_DATABASE: dbPortfolio
+=======
+      MONGO_INITDB_DATABASE: dbTechs
+>>>>>>> publish/main
     ports:
       - "27017:27017"
     networks:
       - linkednetwork
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> publish/main
   app:
     build:
       context: ./
@@ -28,10 +36,17 @@ services:
       - node_modules_app:/usr/app/node_modules
     ports:
       - "3000:3000"
+<<<<<<< HEAD
     environment:
       - NODE_ENV=production      
     depends_on:
       - mongo        
+=======
+    depends_on:
+      - mongo
+    environment:
+      - NODE_ENV=production      
+>>>>>>> publish/main
     networks:
       - linkednetwork  
 

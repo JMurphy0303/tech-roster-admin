@@ -1,0 +1,9 @@
+{
+    "name": "test name",
+    "description": "test description",
+    "difficulty":3,
+    "courses":[
+        {"code":"WEBD3000","name":"Web Application Programming II"},
+        {"code":"WEBD3031", "name":"Integrated Project - Web Programming"}
+    ]
+}

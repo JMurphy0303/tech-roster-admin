@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+version: '3.7'
+
+>>>>>>> publish/main
 services:
   mongo:
     build:
@@ -8,7 +13,11 @@ services:
     volumes:
       - data-volume:/data/db
     environment:
+<<<<<<< HEAD
       MONGO_INITDB_DATABASE: dbPortfolio
+=======
+      MONGO_INITDB_DATABASE: dbTechs
+>>>>>>> publish/main
     ports:
       - "27017:27017"
     networks:

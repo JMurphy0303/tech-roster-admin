@@ -10,6 +10,7 @@
     "production": "next build && next start"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@types/sanitize-html": "^2.15.0",
     "mongodb": "^6.16.0",
     "next": "15.3.1",
@@ -18,12 +19,28 @@
     "react-dom": "^19.0.0",
     "react-spinners": "^0.17.0",
     "sanitize-html": "^2.16.0"
+=======
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
+    "@fortawesome/react-fontawesome": "^3.1.0",
+    "mongodb": "^6.20.0",
+    "next": "^15.5.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sanitize-html": "^2.17.0"
+>>>>>>> publish/main
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+<<<<<<< HEAD
+=======
+    "@types/sanitize-html": "^2.16.0",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.0.5",
+>>>>>>> publish/main
     "tailwindcss": "^4",
     "typescript": "^5"
   }

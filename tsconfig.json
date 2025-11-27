@@ -3,6 +3,7 @@
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+<<<<<<< HEAD
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -23,5 +24,30 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+=======
+    "skipLibCheck": true,            // avoids conflicts with node_modules types
+    "strict": true,                  // enable all strict type checks
+    "noEmit": false,                 // must emit for Next.js build process
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",      // stable for server-side imports
+    "resolveJsonModule": true,
+    "isolatedModules": true,         // required for Next.js
+    "jsx": "preserve",
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true,  // avoids casing issues
+    "types": ["node"],               // include node types for server API routes
+    "plugins": [
+      { "name": "next" }
+    ],
+    "paths": { "@/*": ["./src/*"] }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+>>>>>>> publish/main
   "exclude": ["node_modules"]
 }
