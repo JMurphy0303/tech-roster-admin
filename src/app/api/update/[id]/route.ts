@@ -1,23 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateTechnology } from "@/tools/DataManager";
 
-interface Params {
-  id: string;
-}
-
 export async function PUT(
   req: NextRequest,
-  context: { params: Params }
+  context: { params: Record<string, string> } // ✅ Generic record
 ) {
-  const { id } = context.params;
+  const id = context.params.id;
 
   try {
     const result = await updateTechnology(req, id);
     return NextResponse.json({ success: true, data: result });
-  } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message ?? "Failed to update technology" },
-      { status: 500 }
-    );
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Failed to update technology";
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
