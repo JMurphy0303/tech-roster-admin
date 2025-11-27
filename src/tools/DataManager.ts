@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import sanitizeHtml from "sanitize-html";
 
 // MongoDB constants
-const MONGO_URL:string = "mongodb://mongo:27017/";
+const MONGO_URL:string = process.env.MONGO_URL || "mongodb://mongo:27017";
 const MONGO_DB_NAME:string = "dbTechs";	
 const MONGO_COLLECTION_TECHS:string = "technologies";
 
@@ -113,6 +113,34 @@ export async function updateTechnology(request:NextRequest, id:string) {
 
     } catch(error:any) {
         return NextResponse.json({ error: error.message }, { status:500 });
+    } finally {
+        mongoClient.close();
+    }
+}
+
+export async function deleteTechnology(id: string) {
+    let mongoClient: MongoClient = new MongoClient(MONGO_URL);
+
+    try {
+        await mongoClient.connect();
+
+        if (!ObjectId.isValid(sanitizeHtml(id))) {
+            return NextResponse.json({ error: "Invalid ID format" });
+        }
+
+        let techID: ObjectId = new ObjectId(sanitizeHtml(id));
+        let techCollection = mongoClient.db(MONGO_DB_NAME).collection(MONGO_COLLECTION_TECHS);
+
+
+        let result: DeleteResult = await techCollection.deleteOne({ _id: techID });
+
+        if (result.deletedCount <= 0) {
+            return NextResponse.json({ error: "No technology found with that ID" });
+        } else {
+            return NextResponse.json({ message: "Technology deleted successfully" });
+        }
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message });
     } finally {
         mongoClient.close();
     }
